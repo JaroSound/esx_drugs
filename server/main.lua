@@ -13,6 +13,9 @@ local PlayersHarvestingOpium   = {}
 local PlayersTransformingOpium = {}
 local PlayersSellingOpium      = {}
 
+-- TimerFixSpeedUp
+local PlayersTimer = {}
+
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 function CountCops()
@@ -39,7 +42,7 @@ local function HarvestCoke(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToFarm, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToFarm, function()
 		if PlayersHarvestingCoke[source] then
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local coke = xPlayer.getInventoryItem('coke')
@@ -73,6 +76,10 @@ AddEventHandler('esx_drugs:stopHarvestCoke', function()
 	local _source = source
 
 	PlayersHarvestingCoke[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 local function TransformCoke(source)
@@ -81,7 +88,7 @@ local function TransformCoke(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToProcess, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToProcess, function()
 		if PlayersTransformingCoke[source] then
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local cokeQuantity = xPlayer.getInventoryItem('coke').count
@@ -120,6 +127,10 @@ AddEventHandler('esx_drugs:stopTransformCoke', function()
 	local _source = source
 
 	PlayersTransformingCoke[_source] = false
+
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 local function SellCoke(source)
@@ -128,7 +139,7 @@ local function SellCoke(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToSell, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToSell, function()
 		if PlayersSellingCoke[source] then
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local poochQuantity = xPlayer.getInventoryItem('coke_pooch').count
@@ -182,6 +193,10 @@ AddEventHandler('esx_drugs:stopSellCoke', function()
 	local _source = source
 
 	PlayersSellingCoke[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 --meth
@@ -191,7 +206,7 @@ local function HarvestMeth(source)
 		return
 	end
 	
-	SetTimeout(Config.TimeToFarm, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToFarm, function()
 		if PlayersHarvestingMeth[source] then
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local meth = xPlayer.getInventoryItem('meth')
@@ -225,6 +240,10 @@ AddEventHandler('esx_drugs:stopHarvestMeth', function()
 	local _source = source
 
 	PlayersHarvestingMeth[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 local function TransformMeth(source)
@@ -233,7 +252,7 @@ local function TransformMeth(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToProcess, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToProcess, function()
 		if PlayersTransformingMeth[source] then
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local methQuantity = xPlayer.getInventoryItem('meth').count
@@ -272,6 +291,10 @@ AddEventHandler('esx_drugs:stopTransformMeth', function()
 	local _source = source
 
 	PlayersTransformingMeth[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 local function SellMeth(source)
@@ -280,7 +303,7 @@ local function SellMeth(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToSell, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToSell, function()
 		if PlayersSellingMeth[source] then
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local poochQuantity = xPlayer.getInventoryItem('meth_pooch').count
@@ -337,6 +360,10 @@ AddEventHandler('esx_drugs:stopSellMeth', function()
 	local _source = source
 
 	PlayersSellingMeth[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 --weed
@@ -346,7 +373,7 @@ local function HarvestWeed(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToFarm, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToFarm, function()
 		if PlayersHarvestingWeed[source] then
 			local _source = source
 			local xPlayer = ESX.GetPlayerFromId(_source)
@@ -381,6 +408,10 @@ AddEventHandler('esx_drugs:stopHarvestWeed', function()
 	local _source = source
 
 	PlayersHarvestingWeed[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 local function TransformWeed(source)
@@ -389,7 +420,7 @@ local function TransformWeed(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToProcess, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToProcess, function()
 		if PlayersTransformingWeed[source] then
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local weedQuantity = xPlayer.getInventoryItem('weed').count
@@ -428,6 +459,10 @@ AddEventHandler('esx_drugs:stopTransformWeed', function()
 	local _source = source
 
 	PlayersTransformingWeed[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 local function SellWeed(source)
@@ -436,7 +471,7 @@ local function SellWeed(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToSell, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToSell, function()
 		if PlayersSellingWeed[source] then
 			local _source = source
 			local xPlayer = ESX.GetPlayerFromId(_source)
@@ -488,6 +523,10 @@ AddEventHandler('esx_drugs:stopSellWeed', function()
 	local _source = source
 
 	PlayersSellingWeed[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 --opium
@@ -497,7 +536,7 @@ local function HarvestOpium(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToFarm, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToFarm, function()
 		if PlayersHarvestingOpium[source] then
 			local _source = source
 			local xPlayer = ESX.GetPlayerFromId(_source)
@@ -532,6 +571,10 @@ AddEventHandler('esx_drugs:stopHarvestOpium', function()
 	local _source = source
 
 	PlayersHarvestingOpium[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 local function TransformOpium(source)
@@ -540,7 +583,7 @@ local function TransformOpium(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToProcess, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToProcess, function()
 		if PlayersTransformingOpium[source] then
 			local xPlayer = ESX.GetPlayerFromId(source)
 			local opiumQuantity = xPlayer.getInventoryItem('opium').count
@@ -579,6 +622,10 @@ AddEventHandler('esx_drugs:stopTransformOpium', function()
 	local _source = source
 
 	PlayersTransformingOpium[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 local function SellOpium(source)
@@ -587,7 +634,7 @@ local function SellOpium(source)
 		return
 	end
 
-	SetTimeout(Config.TimeToSell, function()
+	PlayersTimer[source] = ESX.SetTimeout(Config.TimeToSell, function()
 		if PlayersSellingOpium[source] then
 			local _source = source
 			local xPlayer = ESX.GetPlayerFromId(_source)
@@ -642,6 +689,10 @@ AddEventHandler('esx_drugs:stopSellOpium', function()
 	local _source = source
 
 	PlayersSellingOpium[_source] = false
+		
+	if PlayersTimer[_source] ~= nil then
+		ESX.ClearTimeout(PlayersTimer[_source]);
+	end
 end)
 
 RegisterServerEvent('esx_drugs:GetUserInventory')
